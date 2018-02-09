@@ -1,0 +1,52 @@
+{% extends "./base.html" %}
+{% block style %}
+<style>
+	.book-img{
+		width:100%;
+		transition:all 0.2s linear;
+		cursor:pointer;
+	}
+	.book-img:hover{
+		transform:scale(1.1);
+	}
+</style>
+{% endblock %}
+{% block content %}
+<div class="container">
+	{% if success != "" %}
+		<div class="alert alert-success mt-3 text-center">
+			{{success}}
+		</div>
+	{% endif %}
+	<div class="row py-3">
+		{% for book in books %}
+		<div class="col-12">
+			<div class="card">
+				<div class="card-block">
+					<div class="row">
+						<div class="col-md-2 col-sm-3">
+							<img class="book-img float-left" src="{{book.image}}" alt="book" title="{{book.title}}">
+						</div>
+						<div class="col-md-10 col-sm-9">
+							<h4 class="card-title"><a href="/book/{{book._id}}">{{book.title}}</a></h4>
+							<h6 id="date" class="card-subtitle mb-2 text-muted">{{book.date}}</h6>
+							<h6 class="card-subtitle mb-2 text-muted">Author: {{book.author}}</h6>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		{% endfor %}
+	</div>
+	{% if res.user %}
+	<a href="/add" class="float">
+		<i class="fa fa-plus"></i>
+	</a>
+	{% endif %}
+</div>
+<script>
+	var dates = document.querySelectorAll("#date").forEach(date=>{
+		date.innerText = "Uploaded At: " + date.innerText.substr(0,15);
+	});
+</script>
+{% endblock %}

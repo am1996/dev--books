@@ -1,0 +1,47 @@
+{% extends "./base.html" %}
+{% block style %}
+<style>
+	.fullheight{
+		height:80vh;
+		position: relative;
+	}
+	#form{
+		position:absolute;
+		top:50%;
+		left:5%;
+		right:5%;
+		transform:translateY(-50%);
+	}
+</style>
+{% endblock %}
+{% block content %}
+<div class="container">
+	<div class="row fullheight">
+		<div class="col-md-3 hidden-sm-down"></div>
+		<div class="col-md-6">
+			<form id="form" action="/user/forgot-password" method="post">
+				<div class="form-group">
+					<label for="email">Email</label>
+					 <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+						<div class="input-group-addon">
+							<span class="fa fa-fw fa-user"></span>
+						</div>
+						<input class="form-control form-control-lg" name="email" type="email" placeholder="Email" required>
+					</div>
+					<small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+				</div>
+				<button class="btn btn-block btn-lg btn-success" type="submit">Send Mail</button>
+				{% if success and success != "" %}
+					<div class="alert alert-success text-center my-3">
+						{{success}}
+					</div>
+				{% elif error and error != "" %}
+					<div class="alert alert-danger text-center my-3">
+						<strong>Error!</strong> {{error}}
+					</div>
+				{% endif %}
+			</form>
+		</div>
+	</div>
+</div>
+{% endblock %}

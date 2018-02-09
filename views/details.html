@@ -1,0 +1,53 @@
+{% extends "./base.html" %}
+{% block style %}
+<style>
+	i{
+		font-size:18px !important;
+	}
+	p{
+		word-wrap:break-word;
+	}
+</style>
+{% endblock %}
+{% block content %}
+<div class="container pt-5">
+	<div class="card">
+		<h3 class="card-header">{{book.title}}</h3>
+		<div class="card-block">
+			<div class="row">
+				<div class="col-md-3 col-sm-6 col-xs-12">
+					<img class="img-fluid rounded" src="{{book.image}}" alt="">
+				</div>
+				<div class="col-md-9 col-sm-6 col-xs-12">
+					<h6 class="text-muted">Description:</h6>
+					<p>{{book.description}}</p>
+					<h6 class="text-muted">Written By: </h6>
+					<p>{{book.author}}</p>
+					<h6 class="text-muted">Links: </h6>
+					<p>
+						{% for link in book.links %}
+							<a target="_blank" href="{{link}}">Download</a>
+						{% endfor %}
+					</p>
+					<h6 class="text-muted">Uploaded At:</h6>
+					<p id="date">{{book.date}}</p>
+				</div>
+			</div>
+			{%if res.user._id == book.owner %}
+			<div class="btn-group float-right">
+				<a href="/book/{{book._id}}/delete" class="btn btn-danger text-white">
+					<i class="fa fa-trash"></i>
+				</a>
+				<a href="/book/{{book._id}}/edit" class="btn btn-danger text-white">
+					<i class="fa fa-pencil-square-o"></i>
+				</a>
+			</div>
+			{% endif %}
+		</div>
+	</div>
+</div>
+<script>
+	var date = document.querySelector("#date");
+	date.innerText = date.innerText.substr(0,15);
+</script>
+{% endblock %}

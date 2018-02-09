@@ -1,0 +1,56 @@
+{% extends "./base.html" %}
+{% block content %}
+<div class="container">
+	<div class="row py-5">
+		<div class="col-md-3"></div>
+		<div class="col-md-6">
+			<form action="/register" method="post">
+					<div class="form-group">
+						<label for="fullname">Fullname</label>
+						<input class="form-control form-control-lg"name="fullname" type="text" placeholder="Fullname" required>
+					</div>
+					<div class="form-group">
+						<label for="username">Username</label>
+						<input class="form-control form-control-lg"name="username" type="text" placeholder="Username" required>
+					</div>
+					<div class="form-group">
+						<label for="email">Email</label>
+						<input class="form-control form-control-lg"name="email" type="email" placeholder="Email" required>
+					</div>
+					<div class="form-group">
+						<label for="password">Password</label>
+						<input minlength="6" class="form-control form-control-lg"class="form-control form-control-lg" name="password" type="password" placeholder="Password" required>
+					</div>
+					<div class="form-group">
+						<label for="password">Retype Password</label>
+						<input minlength="6" class="form-control form-control-lg"class="form-control form-control-lg" type="password" placeholder="Retype Password" required>
+					</div>
+					<button class="btn btn-danger btn-block btn-lg" type="submit">Register</button>
+					{% if errors %}
+						{% for error in errors.details %}
+							<div class="alert my-2 alert-danger">{{error.message}}</div>
+						{% endfor %}
+					{% elif error %}
+						<div class="alert my-2 alert-danger">{{ error }}</div>
+					{% endif %}
+				</fieldset>
+			</form>
+		</div>
+	</div>
+</div>
+{% endblock %}
+{% block script %}
+<script>
+	var $form = $("form");
+	var $btn = $("form > button");
+	var $inputs = $("input[type='password']");
+	$btn.click((event)=>{
+		event.preventDefault();
+		if($inputs[0].value != $inputs[1].value){
+			alert("Passwords Don't Match...");
+		}else{
+			$form.submit();
+		}
+	});
+</script>
+{% endblock %}

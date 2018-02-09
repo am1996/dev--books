@@ -1,0 +1,140 @@
+{% extends "./base.html" %}
+{% block style %}
+<style>
+	.book-img{
+		width:100%;
+		transition:all 0.2s linear;
+		cursor:pointer;
+	}
+	.book-img:hover{
+		transform:scale(1.1);
+	}
+</style>
+{% endblock %}
+{% block content %}
+<div class="container">
+	<div class="row py-4">
+		<div class="col-12">
+			<h4>Edit Your account information: </h4>
+			<hr>
+			<!-- Nav tabs -->
+			{% if success != "" %}
+				<div class="alert alert-success my-3 text-center">
+					{{success}}
+				</div>
+			{% endif %}
+			{% if errors %}
+				{% for error in errors.details %}
+					<div class="alert my-2 alert-danger">{{error.message}}</div>
+				{% endfor %}
+			{% elif error %}
+				<div class="alert my-2 alert-danger">{{ error }}</div>
+			{% endif %}
+			<ul class="nav nav-tabs" role="tablist">
+				<li class="nav-item">
+				<a class="nav-link active" data-toggle="tab" href="#fullname" role="tab">Fullname</a>
+				</li>
+				<li class="nav-item">
+				<a class="nav-link" data-toggle="tab" href="#email" role="tab">Email</a>
+				</li>
+				<li class="nav-item">
+				<a class="nav-link" data-toggle="tab" href="#password" role="tab">Password</a>
+				</li>
+			</ul>
+
+			<!-- Tab panes -->
+			<div class="tab-content py-4 px-4">
+
+				<div class="tab-pane active" id="fullname" role="tabpanel">
+					<form method="post" action="/dashboard/change_info">
+						<div class="form-group">
+							<label for="fullname">Fullname:</label>
+							<input class="form-control form-control-lg"name="fullname" type="text" placeholder="Fullname" required>
+						</div>
+						<button class="btn btn-danger btn-block btn-lg" type="submit">Done</button>
+					</form>
+				</div>
+
+				<div class="tab-pane" id="email" role="tabpanel">
+					<form method="post" action="/dashboard/change_info">
+						<div class="form-group">
+							<label for="email">Email:</label>
+							<input class="form-control form-control-lg"name="email" type="email" placeholder="Email" required>
+						</div>
+						<button class="btn btn-danger btn-block btn-lg" type="submit">Done</button>
+					</form>
+				</div>
+
+				<div class="tab-pane" id="password" role="tabpanel">
+					<form method="post" action="/dashboard/change_info">
+						<div class="form-group">
+							<label for="password">Password:</label>
+							<input minlength="6" class="form-control form-control-lg"class="form-control form-control-lg" name="password" type="password" placeholder="Password" required>
+						</div>
+						<div class="form-group">
+							<label for="password">Retype Password:</label>
+							<input minlength="6" class="form-control form-control-lg"class="form-control form-control-lg" type="password" placeholder="Retype Password" required>
+						</div>
+						<button class="btn btn-danger btn-block btn-lg" type="submit">Done</button>
+					</form>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+	<div class="row py-1">
+		<div class="col-12">
+			<h4>Books You Uploaded: </h4>
+			<hr>
+		</div>
+		{% for book in books %}
+		<div class="col-12">
+			<div class="card">
+				<div class="card-block">
+					<div class="row">
+						<div class="col-md-2 col-sm-3">
+							<img class="book-img float-left" src="{{book.image}}" alt="book" title="{{book.title}}">
+						</div>
+						<div class="col-md-10 col-sm-9">
+							<h4 class="card-title"><a href="/book/{{book._id}}">{{book.title}}</a></h4>
+							<h6 id="date" class="card-subtitle mb-2 text-muted">{{book.date}}</h6>
+							<h6 class="card-subtitle mb-2 text-muted">Author: {{book.author}}</h6>
+							{%if res.user._id == book.owner %}
+							<div class="btn-group">
+								<a href="/book/{{book._id}}/delete" class="btn btn-danger text-white">
+									<i class="fa fa-trash"></i>
+								</a>
+								<a href="/book/{{book._id}}/edit" class="btn btn-danger text-white">
+									<i class="fa fa-pencil-square-o"></i>
+								</a>
+							</div>
+							{% endif %}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		{% endfor %}
+	</div>
+</div>
+<script>
+	var dates = document.querySelectorAll("#date").forEach(date=>{
+		date.innerText = "Uploaded At: " + date.innerText.substr(0,15);
+	});
+</script>
+{% endblock %}
+{% block script %}
+<script>
+	var $form = $("#password > form");
+	var $btn = $("#password > form > button");
+	var $inputs = $("#password input");
+	$btn.click((event)=>{
+		if($inputs[0].value != $inputs[1].value){
+			alert("Passwords Don't Match...");
+		}else{
+			$form.submit();
+		}
+	});
+</script>
+{% endblock %}
