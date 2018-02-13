@@ -48,7 +48,9 @@
 				<div class="tab-pane active" id="fullname" role="tabpanel">
 					<form method="post" action="/dashboard/change_info">
 						<div class="form-group">
-							<label for="fullname">Fullname:</label>
+							<label for="fullname">Fullname: 
+								<span>{{res.user.fullname}}</span>
+							</label>
 							<input class="form-control form-control-lg"name="fullname" type="text" placeholder="Fullname" required>
 						</div>
 						<button class="btn btn-danger btn-block btn-lg" type="submit">Done</button>
@@ -58,7 +60,7 @@
 				<div class="tab-pane" id="email" role="tabpanel">
 					<form method="post" action="/dashboard/change_info">
 						<div class="form-group">
-							<label for="email">Email:</label>
+							<label for="email">Email: <span>{{res.user.email}}</span></label>
 							<input class="form-control form-control-lg"name="email" type="email" placeholder="Email" required>
 						</div>
 						<button class="btn btn-danger btn-block btn-lg" type="submit">Done</button>

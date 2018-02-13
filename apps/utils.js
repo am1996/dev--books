@@ -1,19 +1,21 @@
-let nodemailer = require("nodemailer");
-var user = process.env.EMAIL;
-var pass = process.env.PASS;
+let nodemailer = require("nodemailer"),
+	config  = require("../config/config.js");
+var user = config.EMAIL;
+var pass = config.PASS;
+
+let transporter = nodemailer.createTransport({
+host: 'smtp.gmail.com',
+port: 465,
+secure: true, // true for 465, false for other ports
+auth:{
+		user: user, // generated ethereal user
+		pass: pass // generated ethereal password
+	}
+});
 
 module.exports = {
 	sendContactMail:(name,email,message)=>{
 		// setup email data with unicode symbols
-		let transporter = nodemailer.createTransport({
-		host: 'smtp.gmail.com',
-		port: 465,
-		secure: true, // true for 465, false for other ports
-		auth:{
-				user: user, // generated ethereal user
-				pass: pass // generated ethereal password
-			}
-		});
 		let mailOptions = {
 			from: `${email}`, // sender address
 			to: 'mmogamer2.am@gmail.com', // list of receivers

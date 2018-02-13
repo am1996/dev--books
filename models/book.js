@@ -1,4 +1,6 @@
 let mongoose = require("mongoose"),
+	config = require("../config/config.js"),
+	mongoosePaginate = require("mongoose-paginate"),
 	Schema = mongoose.Schema;
 
 var bookSchema = new Schema({
@@ -32,6 +34,7 @@ var bookSchema = new Schema({
 	}
 });
 
-let con = mongoose.createConnection(process.env.DBURL);
+bookSchema.plugin(mongoosePaginate);
+let con = mongoose.createConnection(config.DBURL);
 let Book = con.model('Book', bookSchema);
 module.exports = Book;

@@ -38,6 +38,27 @@
 		</div>
 		{% endfor %}
 	</div>
+	{% if numPages > 1 %}
+	<ul class="pagination">
+		<li class="page-item">
+			<a class="page-link" href="?page=1" aria-label="Previous">
+				<span aria-hidden="true">&laquo;</span>
+				<span class="sr-only">First</span>
+			</a>
+		</li>
+		{% for i in range(1,numPages+1) %}
+		<li class="page-item"><a class="page-link" href="?page={{i}}">{{i}}</a></li>
+		{% else %}
+		<li class="page-item"><a class="page-link" href="?page=1">1</a></li>
+		{% endfor %}
+		<li class="page-item">
+			<a class="page-link" href="?page={{numPages}}" aria-label="Next">
+				<span aria-hidden="true">&raquo;</span>
+				<span class="sr-only">Last</span>
+			</a>
+		</li>
+	</ul>
+	{% endif %}
 	{% if res.user %}
 	<a href="/add" class="float">
 		<i class="fa fa-plus"></i>

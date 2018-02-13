@@ -17,12 +17,18 @@ router.use(controllers.loginRequired);
 //routes
 router.get("/",(req,res)=>{
 	var q ={};
-	var value = new RegExp(req.query.q+".*","gi")
+	var page = (req.query.page > 0)? req.query.page:1 ;
+	var value = new RegExp(req.query.q+".*","gi");
 	if(req.query.q) q = {$or:[{title:value},{author:value}]};
-	let books = Book.find(q,(err,books)=>{
-		res.render("index.html",{
-			books:books,
-			success: req.flash("success"),
+
+	let books = Book.paginate(q,{page:page,limit:20},(err,books)=>{
+		if(err) res.render("404.html");
+		Book.count({},(err,count)=>{
+			res.render("index.html",{
+				numPages: Math.ceil(count/20),
+				books:books.docs || [],
+				success: req.flash("success"),
+			});
 		});
 	});
 });
@@ -207,6 +213,8 @@ router.get("/user/:id",(req,res)=>{
 				user.token = "";
 				user.save();
 				req.flash("success","Your account got activated.");
+				req.logout();
+				req.login(user,(err)=>{});
 				res.redirect("/");
 			}else{
 				req.flash("success","The token is incorrect.");

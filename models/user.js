@@ -1,4 +1,5 @@
 let mongoose = require("mongoose"),
+	config = require("../config/config.js"),
 	Schema = mongoose.Schema;
 
 var userSchema = new Schema({
@@ -33,6 +34,6 @@ var userSchema = new Schema({
 	}
 });
 
-let con = mongoose.createConnection(process.env.DBURL);
+let con = mongoose.createConnection(config.DBURL);
 let User = con.model('User', userSchema,"users");
 module.exports = User;

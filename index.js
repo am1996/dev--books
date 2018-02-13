@@ -9,9 +9,10 @@ let express = require("express"),
 	flash = require("connect-flash"),
 	passport = require("passport"),
 	helmet = require("helmet"),
+	config = require("./config/config.js"),
 	app = express();
 //middleware
-mongoose.connect(process.env.DBURL);
+mongoose.connect(config.DBURL);
 app.use(helmet());
 nunjucks.configure('views', { //views file
     autoescape: true,
@@ -48,6 +49,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.use(express.static("static"));
 app.use((res,req,next)=> {
+	app.locals.req = req;
 	app.locals.res = res; 
 	next();
 });
